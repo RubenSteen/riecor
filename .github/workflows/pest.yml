@@ -15,7 +15,6 @@ jobs:
           MYSQL_DATABASE: testing
         ports:
           - 33306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval
 
     steps:
       - name: Checkout code
