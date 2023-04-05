@@ -23,8 +23,7 @@ jobs:
 
       - name: Prepare Laravel Application
         run: |
-          cp .env.testing .env
-          php artisan key:generate
+          cp .env.ci .env
           touch testing
 
       - name: Install NPM dependencies
