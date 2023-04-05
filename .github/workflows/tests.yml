@@ -26,5 +26,11 @@ jobs:
           cp .env.ci .env
           touch testing
 
+      - name: Install NPM dependencies
+        run: npm ci
+
+      - name: Compile assets
+        run: npm run build
+
       - name: Execute tests
         run: vendor/bin/pest
