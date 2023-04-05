@@ -28,7 +28,3 @@ jobs:
 
       - name: Execute tests
         run: vendor/bin/pest
-
-      - name: Deploy
-        if: github.repository == 'laravelio/laravel.io' && github.ref_name == 'main'
-        run: curl ${{ secrets.ENVOYER_HOOK }}?sha=${{ github.sha }}
