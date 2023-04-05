@@ -4,11 +4,12 @@ on: [push, pull_request]
 
 jobs:
   tests:
+    name: Run tests
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -20,11 +21,17 @@ jobs:
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-interaction
 
+      - name: Prepare Laravel Application
+        run: |
+          cp .env.testing .env
+          php artisan key:generate
+          touch testing
+
       - name: Install NPM dependencies
         run: npm ci
 
       - name: Compile assets
         run: npm run build
 
-#      - name: Execute tests
-#        run: vendor/bin/pest
+      - name: Execute tests
+        run: vendor/bin/pest
