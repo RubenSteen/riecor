@@ -1,4 +1,4 @@
-name: Pest Tests2
+name: Pest Tests
 
 on: [push, pull_request]
 
