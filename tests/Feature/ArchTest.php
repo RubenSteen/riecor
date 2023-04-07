@@ -6,4 +6,4 @@ it('does not use debugging functions')
 
 it('uses the redirect facade for redirecting')
     ->expect(['back', 'redirect', 'to_route'])
-    ->not->toBeUsedIn("App\\Http\\Controllers\\");
+    ->not->toBeUsedIn('App\\Http\\Controllers\\');
