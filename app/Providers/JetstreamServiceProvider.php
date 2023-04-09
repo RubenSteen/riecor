@@ -51,12 +51,12 @@ class JetstreamServiceProvider extends ServiceProvider
      */
     protected function configureRoutes()
     {
-            Route::group([
-                'namespace' => 'Laravel\Jetstream\Http\Controllers',
-                'domain' => config('jetstream.domain', null),
-                'prefix' => config('jetstream.prefix', config('jetstream.path')),
-            ], function () {
-                $this->loadRoutesFrom(base_path('routes/jetstream.php'));
-            });
-        }
+        Route::group([
+            'namespace' => 'Laravel\Jetstream\Http\Controllers',
+            'domain' => config('jetstream.domain', null),
+            'prefix' => config('jetstream.prefix', config('jetstream.path')),
+        ], function () {
+            $this->loadRoutesFrom(base_path('routes/jetstream.php'));
+        });
+    }
 }

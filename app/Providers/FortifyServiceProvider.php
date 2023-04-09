@@ -53,12 +53,12 @@ class FortifyServiceProvider extends ServiceProvider
      */
     protected function configureRoutes()
     {
-            Route::group([
-                'namespace' => 'Laravel\Fortify\Http\Controllers',
-                'domain' => config('fortify.domain', null),
-                'prefix' => config('fortify.prefix'),
-            ], function () {
-                $this->loadRoutesFrom(base_path('routes/fortify.php'));
-            });
-        }
+        Route::group([
+            'namespace' => 'Laravel\Fortify\Http\Controllers',
+            'domain' => config('fortify.domain', null),
+            'prefix' => config('fortify.prefix'),
+        ], function () {
+            $this->loadRoutesFrom(base_path('routes/fortify.php'));
+        });
+    }
 }
