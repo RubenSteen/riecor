@@ -1,6 +1,6 @@
 <?php
 
-test('can create a new user', function () {
+it('can create a new user', function () {
     $response = $this->post('/register', [
         'name' => 'John Doe',
         'email' => 'johndoe@laravel.com',
