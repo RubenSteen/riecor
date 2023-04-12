@@ -3,39 +3,66 @@
 use App\Models\User;
 use function Pest\Laravel\{actingAs};
 
-it('can follow a user', function () {
-    $usersToFollow = User::factory()
+beforeEach(function () {
+    $this->user = User::factory()->create();
+
+    $this->usersToFollow = User::factory()
         ->count(10)
         ->create();
 
-    actingAs($user = User::factory()->create())
-        ->post(route('follow.store', $usersToFollow->first()->id))
-        ->assertStatus(200);
+    // The user will always have followers
+    $this->user->follows()->attach($this->usersToFollow);
+});
 
-    expect($user->fresh()->follows)
-        ->toHaveCount(1);
+it('can follow a user', function () {
+    actingAs($this->user)
+        ->post(route('follow.store', $this->usersToFollow->first()->id))
+        ->assertStatus(302)
+        ->assertSessionHas(['success' => "Following {$this->usersToFollow->first()->name}"]);
 
-    expect($user->fresh()->follows->first()->email)
-        ->toBe($usersToFollow->first()->email);
+    expect($this->user->fresh()->follows)
+        ->toHaveCount(($this->usersToFollow->count() + 1));
+
+    expect($this->user->fresh()->follows->first()->email)
+        ->toBe($this->usersToFollow->first()->email);
 });
 
 it('can unfollow a user', function () {
-    $usersToFollow = User::factory()
-        ->count(10)
-        ->create();
+    actingAs($this->user)
+        ->delete(route('follow.delete', $this->usersToFollow->first()->id))
+        ->assertStatus(302)
+        ->assertSessionHas(['success' => "Unfollowing {$this->usersToFollow->first()->name}"]);
 
-    $user = User::factory()->create();
+    expect($this->user->fresh()->follows)
+        ->toHaveCount(($this->usersToFollow->count() - 1));
 
-    $user->follows()->attach($usersToFollow);
-
-    actingAs($user)
-        ->delete(route('follow.delete', $usersToFollow->first()->id))
-        ->assertStatus(200);
-
-    expect($user->fresh()->follows)
-        ->toHaveCount(9);
-
-    expect($user->fresh()->follows->first()->email)
+    expect($this->user->fresh()->follows->first()->email)
         ->not
-        ->toBe($usersToFollow->first()->email);
+        ->toBe($this->usersToFollow->first()->email);
 });
+
+it('cannot follow him/herself', function () {
+    actingAs($this->user)
+        ->post(route('follow.store', $this->user->id))
+        ->assertStatus(302)
+        ->assertSessionHas(['error' => 'You cannot follow yourself']);
+
+    expect($this->user->fresh()->follows)
+        ->toHaveCount(($this->usersToFollow->count()));
+
+    expect($this->user->fresh()->follows->last()->email)
+        ->not
+        ->toBe($this->user->email);
+});
+
+it('cannot unfollow him/herself', function () {
+    actingAs($this->user)
+        ->delete(route('follow.delete', $this->user->id))
+        ->assertStatus(302)
+        ->assertSessionHas(['error' => 'You cannot unfollow yourself']);
+
+    expect($this->user->fresh()->follows)
+        ->toHaveCount(($this->usersToFollow->count()));
+});
+
+todo('You cannot follow a user you are already following');
