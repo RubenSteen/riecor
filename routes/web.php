@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FollowController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -33,3 +34,6 @@ Route::middleware([
         return Inertia::render('Dashboard');
     })->name('dashboard');
 });
+
+Route::post('/follow/{user}', [FollowController::class, 'store'])->middleware('auth')->name('follow.store');
+Route::delete('/follow/{user}', [FollowController::class, 'delete'])->middleware('auth')->name('follow.delete');

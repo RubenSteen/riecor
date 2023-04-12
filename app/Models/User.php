@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -64,12 +65,18 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->super_admin != null ? true : false;
     }
 
-    public function follows()
+    /**
+     * Gets the users the currect user follows
+     */
+    public function follows(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'user_follows', 'user_id', 'follows_id')->withTimestamps();
     }
 
-    public function followers()
+    /**
+     * Gets the users that follows the current user
+     */
+    public function followers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'user_follows', 'follows_id');
     }
