@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
 
         foreach ($users as $user) {
             $user->follows()->attach(
-                $users->pluck('id')->random(rand(1,10))->values()->toArray()
+                $users->pluck('id')->random(rand(1, 10))->values()->toArray()
             );
         }
     }

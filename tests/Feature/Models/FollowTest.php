@@ -8,7 +8,7 @@ it('can retrieve a list the user follows', function () {
     $usersToFollow = User::factory()->count(3)->create();
 
     $user->follows()->attach($usersToFollow);
-        
+
     expect($user->follows)->toHaveCount(3);
 });
 
@@ -20,6 +20,6 @@ it('can retrieve a list of the user their followers', function () {
     foreach ($followers as $follower) {
         $follower->follows()->attach($user);
     }
-        
+
     expect($user->followers)->toHaveCount(3);
 });
