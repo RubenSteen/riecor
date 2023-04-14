@@ -10,5 +10,6 @@ it('can create a new user', function () {
 
     $this->assertDatabaseHas('users', [
         'name' => 'John Doe',
-        'email' => 'johndoe@laravel.com']);
+        'email' => 'johndoe@laravel.com',
+    ]);
 });
