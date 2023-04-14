@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\User;
-use Carbon\Carbon;
 use function Pest\Laravel\{actingAs};
 
 /*

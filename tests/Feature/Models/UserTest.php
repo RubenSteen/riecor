@@ -61,7 +61,7 @@ it('can retrieve the first user it follows', function () {
     expect($user->follows->first()->email)->toBe($usersToFollow->first()->email);
 });
 
-it('can retrieve the timestamps from the pivot table', function (string $column) {
+it('can retrieve the timestamps from the pivot table user_follows', function (string $column) {
     $user = User::factory()->create();
 
     $usersToFollow = User::factory()->count(3)->create();
@@ -70,3 +70,55 @@ it('can retrieve the timestamps from the pivot table', function (string $column)
 
     expect($user->follows()->first()->pivot->$column)->toBeInstanceOf(Illuminate\Support\Carbon::class);
 })->with(['created_at', 'updated_at']);
+
+/*
+|--------------------------------------------------------------------------
+| Views tests
+|--------------------------------------------------------------------------
+*/
+
+it('can retrieve a list the user viewed', function () {
+    $user = User::factory()->create();
+
+    $usersToView = User::factory()->count(3)->create();
+
+    $user->views()->attach($usersToView);
+
+    expect($user->views)->toHaveCount(3);
+});
+
+it('can retrieve a list of the user their viewers', function () {
+    $user = User::factory()->create();
+
+    $viewers = User::factory()->count(3)->create();
+
+    foreach ($viewers as $viewer) {
+        $viewer->views()->attach($user);
+    }
+
+    expect($user->viewers)->toHaveCount(3);
+});
+
+it('can retrieve the first user it viewed', function () {
+    $user = User::factory()->create();
+
+    $usersToView = User::factory()->count(3)->create();
+
+    $user->views()->attach($usersToView);
+
+    expect($user->views->first()->email)->toBe($usersToView->first()->email);
+});
+
+it('can retrieve the timestamps from the pivot table profile_viewers', function (string $column) {
+    $user = User::factory()->create();
+
+    $usersToView = User::factory()->count(3)->create();
+
+    $user->views()->attach($usersToView);
+
+    expect($user->views()->first()->pivot->$column)->toBeInstanceOf(Illuminate\Support\Carbon::class);
+})->with(['created_at', 'updated_at']);
+
+todo('If the user never viewed the profile before it marks the view unique');
+
+todo('Every view after the first unique view, will be not unique');

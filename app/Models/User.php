@@ -106,4 +106,20 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsToMany(User::class, 'user_blocks', 'blocks_id');
     }
+
+    /**
+     * Gets the users the currect user viewed
+     */
+    public function views(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'profile_views', 'user_id', 'viewed_id')->withTimestamps();
+    }
+
+    /**
+     * Gets the users that viewed the current user
+     */
+    public function viewers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'profile_views', 'viewed_id');
+    }
 }
