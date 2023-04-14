@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\FollowController;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
+use App\Http\Controllers\BlockController;
+use App\Http\Controllers\FollowController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,3 +38,6 @@ Route::middleware([
 
 Route::post('/follow/{user}', [FollowController::class, 'store'])->middleware('auth')->name('follow.store');
 Route::delete('/follow/{user}', [FollowController::class, 'delete'])->middleware('auth')->name('follow.delete');
+
+Route::post('/block/{user}', [BlockController::class, 'store'])->middleware('auth')->name('block.store');
+Route::delete('/block/{user}', [BlockController::class, 'delete'])->middleware('auth')->name('block.delete');

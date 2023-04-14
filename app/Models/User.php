@@ -90,4 +90,20 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsToMany(User::class, 'user_follows', 'follows_id');
     }
+
+    /**
+     * Gets the users the currect user blocks
+     */
+    public function blocks(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'user_blocks', 'user_id', 'blocks_id')->withTimestamps();
+    }
+
+    /**
+     * Gets the users that blocks the current user
+     */
+    public function blockers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'user_blocks', 'blocks_id');
+    }
 }
