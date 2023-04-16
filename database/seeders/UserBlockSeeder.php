@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
-class UserFollowsSeeder extends Seeder
+class UserBlockSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -26,8 +26,8 @@ class UserFollowsSeeder extends Seeder
         DB::beginTransaction();
 
         foreach ($users as $user) {
-            $user->follows()->attach(
-                $users->pluck('id')->random(rand(1, 10))->values()->toArray()
+            $user->blocks()->attach(
+                $users->whereNotIn('id', $user->follows->pluck('id'))->pluck('id')->random(rand(1, 10))->values()->toArray()
             );
 
             $progressBar->advance();
