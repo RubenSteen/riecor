@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             UserFollowSeeder::class,
             UserBlockSeeder::class,
             UserViewSeeder::class,
+            UploadSeeder::class,
         ]);
     }
 }

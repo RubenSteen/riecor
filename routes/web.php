@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BlockController;
 use App\Http\Controllers\FollowController;
+use App\Http\Controllers\UploadController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -41,3 +42,5 @@ Route::delete('/follow/{user}', [FollowController::class, 'delete'])->middleware
 
 Route::post('/block/{user}', [BlockController::class, 'store'])->middleware('auth')->name('block.store');
 Route::delete('/block/{user}', [BlockController::class, 'delete'])->middleware('auth')->name('block.delete');
+
+Route::post('/upload', [UploadController::class, 'store'])->middleware('auth')->name('upload.store');
