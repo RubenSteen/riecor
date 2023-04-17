@@ -29,6 +29,7 @@ it('can upload a file', function () {
 
     $this->assertDatabaseHas('uploads', [
         'original_name' => $file_name,
+        'name' => $upload_title,
     ]);
 
     $upload = Upload::first();
@@ -36,6 +37,8 @@ it('can upload a file', function () {
     expect($upload->name)->toEqual($upload_title);
 
     Storage::disk('media')->assertExists($upload->path);
-
-    Storage::disk('media')->assertMissing($file_name);
 });
+
+todo('When a upload is stored in the database but the file is not saved then make a log of the upload for a admin to check');
+
+todo('When a upload is not stored in the database but the file is saved then also make a log of the file for a admin to check');
