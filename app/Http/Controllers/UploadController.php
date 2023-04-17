@@ -34,7 +34,7 @@ class UploadController extends Controller
     public function store(StoreUploadRequest $request)
     {
         $user = \Auth::user();
-        
+
         $path = $this->generatePath($user);
 
         $file = $request->file('file');
