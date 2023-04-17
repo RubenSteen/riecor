@@ -33,11 +33,8 @@ class UploadController extends Controller
      */
     public function store(StoreUploadRequest $request)
     {
-        if (! \Auth::check()) {
-            abort(500, 'Login please');
-        }
-
         $user = \Auth::user();
+        
         $path = $this->generatePath($user);
 
         $file = $request->file('file');
