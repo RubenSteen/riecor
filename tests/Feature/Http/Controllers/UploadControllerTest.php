@@ -13,17 +13,17 @@ use function Pest\Laravel\{actingAs};
 */
 
 it('can upload a file', function () {
-    // Faking the Storage
     Storage::fake('local');
 
-    // Faking the file
     $file_name = 'new-upload.jpg';
+    $upload_title = 'Some adjusted name';
+
     $file = UploadedFile::fake()->image($file_name);
 
     $response = actingAs(User::factory()->create())
         ->post(route('upload.store'), [
             'file' => $file,
-            'name' => 'Some adjusted name',
+            'name' => $upload_title,
         ])
         ->assertSessionHasNoErrors();
 
@@ -32,11 +32,10 @@ it('can upload a file', function () {
     ]);
 
     $upload = Upload::first();
-    $upload->file->assertNotNull();
 
-    // Assert the file was stored...
-    Storage::disk('local')->assertExists($file_name);
+    expect($upload->name)->toEqual($upload_title);
 
-    // Assert a file does not exist...
-    Storage::disk('local')->assertMissing('missing.jpg');
+    Storage::disk('media')->assertExists($upload->path);
+
+    Storage::disk('media')->assertMissing($file_name);
 });

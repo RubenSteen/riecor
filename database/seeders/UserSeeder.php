@@ -9,13 +9,18 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 
 class UserSeeder extends Seeder
 {
-    private $amount = 20;
+    private $amount = 20 - 1;
 
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
+        // Create first user
+        \App\Models\User::factory()->create([
+            'email' => 'test@example.com',
+        ]);
+
         $output = new ConsoleOutput();
         $progressBar = new ProgressBar($output, $this->amount);
         $progressBar->setFormat('verbose');

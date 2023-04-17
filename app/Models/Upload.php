@@ -16,7 +16,8 @@ class Upload extends Model
     protected static function booted(): void
     {
         static::creating(function (Upload $upload) {
-            $upload->file_name = Str::uuid();
+            $unique_name = Str::uuid();
+            $upload->path = "{$upload->path}/{$unique_name}.{$upload->original_extension}";
         });
     }
 
@@ -27,6 +28,11 @@ class Upload extends Model
      */
     protected $fillable = [
         'name',
+        'path',
+        'user_id',
         'original_name',
+        'original_extension',
+        'original_size',
+        'original_mime_type',
     ];
 }

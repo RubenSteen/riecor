@@ -2,7 +2,6 @@
 
 use App\Models\Upload;
 use App\Models\User;
-use Illuminate\Support\Str;
 
 beforeEach(function () {
     $this->user = User::factory()->create();
@@ -21,15 +20,12 @@ it('can create a upload', function () {
         'user_id' => $this->user->id,
         'name' => 'Some name',
         'original_name' => 'image.jpg',
+        'original_extension' => '.jpg',
+        'original_size' => '652442',
+        'original_mime_type' => 'image/png',
     ];
 
     $upload = Upload::create($data);
 
     expect($upload->fresh()->first())->toMatchArray($data);
-});
-
-it('generates a unique filename when a uploading a file', function () {
-    $upload = Upload::factory()->create();
-
-    expect(Str::isUuid($upload->fresh()->first()->file_name))->toBeTrue();
 });

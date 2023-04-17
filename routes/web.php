@@ -43,4 +43,5 @@ Route::delete('/follow/{user}', [FollowController::class, 'delete'])->middleware
 Route::post('/block/{user}', [BlockController::class, 'store'])->middleware('auth')->name('block.store');
 Route::delete('/block/{user}', [BlockController::class, 'delete'])->middleware('auth')->name('block.delete');
 
+Route::get('/upload/create', [UploadController::class, 'create'])->middleware('auth')->name('upload.create');
 Route::post('/upload', [UploadController::class, 'store'])->middleware('auth')->name('upload.store');

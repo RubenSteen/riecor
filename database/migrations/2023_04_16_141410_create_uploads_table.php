@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('uploads', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->index();
+            $table->string('path')->unique();
             $table->string('original_name');
-            $table->uuid('file_name')->unique();
+            $table->string('original_extension');
+            $table->string('original_size');
+            $table->string('original_mime_type');
             $table->foreignId('user_id')->index();
             $table->timestamps();
         });
